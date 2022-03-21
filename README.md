@@ -30,3 +30,9 @@ docker run --name myadmin \
     -p 8080:80 \
     -d phpmyadmin
 ```
+
+## Removing all containers
+
+```sh
+docker rm -f $(docker ps -aq)
+```
