@@ -6,14 +6,15 @@ LABEL maintainer="Vincent Letourneau <vincent@nanoninja.com>"
 WORKDIR /home/node/app
 
 COPY package*.json .
-RUN npm ci --only=production
-RUN npm install -g @angular/cli
+RUN npm ci --only=production && \
+    npm install -g @angular/cli@13.0.0
+
 COPY . .
 RUN npm run build
 
 # Front Web
 
-FROM nginx:alpine AS web_dev
+FROM nginx:1.21.6-alpine AS web_dev
 LABEL maintainer="Vincent Letourneau <vincent@nanoninja.com>"
 
 WORKDIR /usr/share/nginx/html
