@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+
+  db:
+    container_name: db
+    build:
+      context: ./back
+      target: db_prod
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: root
+    restart: always
+    networks:
+      - backend
+    ports:
+      - 27017
+    volumes:
+      - dbstore:/data/db
+
+  api:
+    build:
+      context: ./back
+      target: api_prod
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      API_PORT: 3000
+      API_DB_DSN: mongodb://dev:dev@db:27017/store
+    depends_on:
+      - db
+    networks:
+      - backend
+      - frontend
+
+  web:
+    build:
+      context: ./front
+      target: web_dev
+    restart: always
+    depends_on:
+      - api
+    ports:
+      - 8000:80
+    networks:
+      - frontend
+
+networks:
+  backend:
+    internal: true
+    driver: bridge
+  frontend:
+    driver: bridge
+
+volumes:
+  dbstore:
