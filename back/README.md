@@ -26,3 +26,15 @@ docker build --target api_prod -t api_prod --no-cache .
 ```sh
 docker run --name api_prod_server -p 3000:3000 --net skynet api_prod
 ```
+
+## Building Angular Prod
+
+```sh
+docker build -t web_prod .
+```
+
+## Running Angular
+
+```sh
+docker run --name web_prod_server -p 8080:80 --net skynet web_prod
+```

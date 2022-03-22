@@ -1,6 +1,9 @@
+FROM mongo:5.0.6 AS db_prod
+COPY ./seed/mongo-init.js ./docker-entrypoint-initdb.d/mongo-init.js
+
+
 # Development
 FROM node:16.14-alpine AS api_dev
-
 LABEL maintainer="Vincent Letourneau <vincent@nanoninja.com>"
 
 WORKDIR /home/node/api
